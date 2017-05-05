@@ -63,6 +63,14 @@ public class Player {
 			return false;
 		}
 	}
-
+	
+	/* Considers an item, adding one of its aspects to the spirit
+	 * Returns true if the spirit was actually added (see addToSpirit for details)
+	 */
+	public boolean consider(Item item) {
+		int randIndex = (int)(Math.random() * item.getAspects().length);
+		return addToSpirit(item.getAspects()[randIndex]);
+	}
+	
 	
 }

@@ -11,8 +11,8 @@ public class GameData {
 		makeAspect("heaviness","Heaviness",null);
 		makeAspect("smashing","Smashing",new String[] {"hardness","heaviness"});
 		makeAspect("crushing","Crushing",new String[] {"smashing","heaviness"});
-	
-		ITEMDICT.put("rock", new Item("rock","Rock", new Aspect[] {a("heaviness"),a("crushing")}));
+		
+		makeItem("rock","Rock",new String[] {"heaviness","hardness"});
 		
 	}
 	
@@ -27,6 +27,13 @@ public class GameData {
 		}
 	}
 	
+	private static void makeItem(String name, String display, String[] aspects) { //shortcut for making a new item
+		Aspect[] aspectArray = new Aspect[aspects.length];
+		for(int i = 0; i < aspects.length; i++) {
+			aspectArray[i] = a(aspects[i]);
+		}
+		ITEMDICT.put(name, new Item(name,display,aspectArray));
+	}
 	private static Aspect a(String s) { //just a shortcut for getting aspects from the dictionary
 		return ASPECTDICT.get(s);
 	}
