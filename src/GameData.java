@@ -34,6 +34,7 @@ public class GameData {
 		}
 		ITEMDICT.put(name, new Item(name,display,aspectArray));
 	}
+	
 	private static Aspect a(String s) { //just a shortcut for getting aspects from the dictionary
 		return ASPECTDICT.get(s);
 	}
