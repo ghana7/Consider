@@ -28,11 +28,11 @@ public class Player {
 	public int getIntelligence() {return intelligence;}
 	public int getConstitution() {return constitution;}
 	
-	/* Adds an aspect to spirit if there is space
+	/* Adds an aspect to spirit if there is space and it does not exist in spirit yet
 	 * Returns true if the aspect was added
 	 */
 	public boolean addToSpirit(Aspect a) {
-		if(spirit.size() < wisdom) {
+		if(spirit.size() < wisdom && !spirit.contains(a)) {
 			spirit.add(a);
 			return true;
 		} else {
@@ -40,11 +40,11 @@ public class Player {
 		}
 	}
 	
-	/* Adds an idea to brain if there is space
+	/* Adds an idea to brain if there is space and it does not exist in brain yet
 	 * Returns true if the idea was added
 	 */
 	public boolean addToBrain(Idea i) {
-		if(brain.size() < intelligence) {
+		if(brain.size() < intelligence && !brain.contains(i)) {
 			brain.add(i);
 			return true;
 		} else {
@@ -72,5 +72,22 @@ public class Player {
 		return addToSpirit(item.getAspects()[randIndex]);
 	}
 	
-	
+	/* Considers a series of aspects, adding either a resultant aspect or idea to the spirit or brain, respectively
+	 * Returns true if something is successfully added
+	 */
+	public boolean consider(Aspect[] aspects) {
+		for(String key : GameData.ASPECTDICT.keySet()) {
+			Aspect value = GameData.ASPECTDICT.get(key);
+			if(Aspect.getCraftingCode(value.getRecipe()).equals(Aspect.getCraftingCode(aspects))) { //if that aspect in the dict has the same recipe as the array given
+				return addToSpirit(value);
+			}
+		}
+		for(String key : GameData.IDEADICT.keySet()) {
+			Idea value = GameData.IDEADICT.get(key);
+			if(Aspect.getCraftingCode(value.getRecipe()).equals(Aspect.getCraftingCode(aspects))) { //if that aspect in the dict has the same recipe as the array given
+				return addToSpirit(value);
+			}
+		}
+		return false;
+	}
 }
