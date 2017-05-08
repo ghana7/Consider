@@ -6,6 +6,7 @@ public class GameData {
 	
 	public final static Map<String, Aspect> ASPECTDICT = new HashMap<String,Aspect>();
 	public final static Map<String, Item> ITEMDICT = new HashMap<String,Item>();
+	public final static Map<String, Idea> IDEADICT = new HashMap<String, Idea>();
 	static {
 		makeAspect("hardness","Hardness",null);
 		makeAspect("heaviness","Heaviness",null);

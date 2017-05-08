@@ -85,8 +85,22 @@ public class Player {
 		for(String key : GameData.IDEADICT.keySet()) {
 			Idea value = GameData.IDEADICT.get(key);
 			if(Aspect.getCraftingCode(value.getRecipe()).equals(Aspect.getCraftingCode(aspects))) { //if that aspect in the dict has the same recipe as the array given
-				return addToSpirit(value);
+				return addToBrain(value);
 			}
+		}
+		return false;
+	}
+	
+	public boolean makeItem(Idea idea, Item[] materials) {
+		if(idea.getMaterials().length == materials.length) { //make sure you have right amount of materials
+			for(int i = 0; i < materials.length; i++) {
+				Property p = idea.getMaterials()[i];
+				if(!p.isValid(materials[i].getPropertyValue(p.getName()))) { //if the property from the i'th item has a valid value for property i
+					return false;
+				}
+			}
+			//THIS NEEDS TO BE CHANGED TO TAKE INTO CONSIDERATION ITEM STATS
+			return addToInventory(new Item(idea.getItem().getName())); //adds the item corresponding to that idea
 		}
 		return false;
 	}
