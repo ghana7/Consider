@@ -4,12 +4,10 @@ import java.util.Map;
 
 public class Aspect implements Comparable<Aspect>{
 	private String name; //the name of the aspect
-	private String displayName; //the name shown of the object
 	private Aspect[] recipe; //the aspects needed to combine to discover this one
 	
-	public Aspect(String _name, String _displayName) {
+	public Aspect(String _name) {
 		name = _name;
-		displayName = _displayName;
 		recipe = null;
 	}
 	

@@ -78,13 +78,13 @@ public class Player {
 	public boolean consider(Aspect[] aspects) {
 		for(String key : GameData.ASPECTDICT.keySet()) {
 			Aspect value = GameData.ASPECTDICT.get(key);
-			if(Aspect.getCraftingCode(value.getRecipe()).equals(Aspect.getCraftingCode(aspects))) { //if that aspect in the dict has the same recipe as the array given
+			if(value.getRecipe() != null && Aspect.getCraftingCode(value.getRecipe()).equals(Aspect.getCraftingCode(aspects))) { //if that aspect in the dict has the same recipe as the array given
 				return addToSpirit(value);
 			}
 		}
 		for(String key : GameData.IDEADICT.keySet()) {
 			Idea value = GameData.IDEADICT.get(key);
-			if(Aspect.getCraftingCode(value.getRecipe()).equals(Aspect.getCraftingCode(aspects))) { //if that aspect in the dict has the same recipe as the array given
+			if(value.getRecipe() != null && Aspect.getCraftingCode(value.getRecipe()).equals(Aspect.getCraftingCode(aspects))) { //if that aspect in the dict has the same recipe as the array given
 				return addToBrain(value);
 			}
 		}

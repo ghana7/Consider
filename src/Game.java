@@ -12,6 +12,15 @@ public class Game {
 		
 		System.out.println(rock);
 		System.out.println(club);
+		
+		rik.consider(rock);
+		rik.consider(rock);
+		rik.consider(rock);
+		rik.consider(rock);
+		rik.consider(new Aspect[] {rik.getSpirit().get(0), rik.getSpirit().get(1)});
+		for(Aspect a : rik.getSpirit()) {
+			System.out.println(a);
+		}
 	}
 	
 	

@@ -8,21 +8,37 @@ public class GameData {
 	public final static Map<String, Item> ITEMDICT = new HashMap<String,Item>();
 	public final static Map<String, Idea> IDEADICT = new HashMap<String, Idea>();
 	static {
-		makeAspect("hard","Hard",null);
-		makeAspect("heavy","Heavy",null);
-		makeAspect("smashing","Smashing",new String[] {"hard","heavy"});
-		makeAspect("crushing","Crushing",new String[] {"smashing","heavy"});
+		makeAspect("hard",null);
+		makeAspect("heavy",null);
+		makeAspect("smashing",new String[] {"hard","heavy"});
+		makeAspect("crushing",new String[] {"smashing","heavy"});
+		makeAspect("long",null);
+		makeAspect("brittle",null);
+		makeAspect("wet",null);
+		makeAspect("thick",new String[] {"wet","heavy"});
+		makeAspect("crystalline",new String[] {"hard","brittle"});
+		makeAspect("bright",null);
+		makeAspect("shiny",new String[] {"crystalline","bright"});
+		makeAspect("metallic",new String[] {"shiny","hard"});
+		makeAspect("alive",null);
+		makeAspect("sharp",null);
+		makeAspect("hot",null);
+		
 		
 		makeItem("rock","Rock",new String[] {"heavy","hard"}, new String[] {"weight:7"});
+		makeItem("flint","Shard of flint", new String[] {"hard","sharp"}, new String[] {"weight:1","sharpness:5"});
 		makeItem("club","Club",new String[] {"smashing"}, new String[] {"weight:23"});
-		
+		makeItem("tree","Tree",new String[] {"long","alive"}, new String[] {"height:30","flammable:1"});
+		makeItem("hammer","Hammer",new String[] {"long","heavy","smashing","crushing"}, new String[] {"hardness:50"});
+		makeItem("campfire","Campfire",new String[] {"hot"}, new String[] {});
 		
 		makeIdea("club", new String[] {"crushing","heavy"}, new String[] {"weight:5:10"});
-		
+		makeIdea("hammer", new String[] {"smashing","long"}, new String[] {"weight:5:15","length:10:20"});
+		makeIdea("campfire", new String[] {"hard","hot"}, new String[] {"sharpness:5:15","hardness:10:20","flammable:1:1"});
 	}
 	
-	private static void makeAspect(String name, String display, String[] ingredients) { //shortcut for making a new aspect
-		ASPECTDICT.put(name, new Aspect(name,display));
+	private static void makeAspect(String name, String[] ingredients) { //shortcut for making a new aspect
+		ASPECTDICT.put(name, new Aspect(name));
 		if(ingredients != null) {
 			Aspect[] aspectRecipe = new Aspect[ingredients.length];
 			for(int i = 0; i < ingredients.length; i++) {
