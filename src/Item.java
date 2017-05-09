@@ -7,17 +7,18 @@ public class Item {
 	private Aspect[] aspects; //the aspects inherent in this object
 	private HashMap<String, Integer> propertyValues; //the values for the properties of the object
 	
-	public Item(String _name, String _displayName, Aspect[] _aspects) {
+	public Item(String _name, String _displayName, Aspect[] _aspects, HashMap<String, Integer> _propertyValues) {
 		name = _name;
 		displayName = _displayName;
 		aspects = _aspects;
-		propertyValues = new HashMap<String, Integer>();
+		propertyValues = _propertyValues;
 	}
 	public Item(String _name) { //only use if already exists in dict
 		name = _name;
 		Item base = GameData.ITEMDICT.get(name);
 		displayName = base.getDisplayName();
 		aspects = base.getAspects();
+		propertyValues = base.getPropertyValues();
 	}
 	
 	public void addProperty(String name, int value) {
@@ -27,4 +28,17 @@ public class Item {
 	public String getDisplayName() {return displayName;}
 	public Aspect[] getAspects() {return aspects;}
 	public int getPropertyValue(String key) {return propertyValues.get(key);}
+	public HashMap<String, Integer> getPropertyValues() {return propertyValues;}
+	
+	public String toString() {
+		String output = getName() + ":\nAspects:\n";
+		for(Aspect a : getAspects()) {
+			output += "\t" + a.getName() + "\n";
+		}
+		output += "Properties:\n";
+		for(String p : propertyValues.keySet()) {
+			output += "\t" + p + ": " + propertyValues.get(p) + "\n";
+		}
+		return output;
+	}
 }

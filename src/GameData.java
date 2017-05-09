@@ -8,12 +8,16 @@ public class GameData {
 	public final static Map<String, Item> ITEMDICT = new HashMap<String,Item>();
 	public final static Map<String, Idea> IDEADICT = new HashMap<String, Idea>();
 	static {
-		makeAspect("hardness","Hardness",null);
-		makeAspect("heaviness","Heaviness",null);
-		makeAspect("smashing","Smashing",new String[] {"hardness","heaviness"});
-		makeAspect("crushing","Crushing",new String[] {"smashing","heaviness"});
+		makeAspect("hard","Hard",null);
+		makeAspect("heavy","Heavy",null);
+		makeAspect("smashing","Smashing",new String[] {"hard","heavy"});
+		makeAspect("crushing","Crushing",new String[] {"smashing","heavy"});
 		
-		makeItem("rock","Rock",new String[] {"heaviness","hardness"});
+		makeItem("rock","Rock",new String[] {"heavy","hard"}, new String[] {"weight:7"});
+		makeItem("club","Club",new String[] {"smashing"}, new String[] {"weight:23"});
+		
+		
+		makeIdea("club", new String[] {"crushing","heavy"}, new String[] {"weight:5:10"});
 		
 	}
 	
@@ -28,15 +32,39 @@ public class GameData {
 		}
 	}
 	
-	private static void makeItem(String name, String display, String[] aspects) { //shortcut for making a new item
+	private static void makeItem(String name, String display, String[] aspects, String[] properties) { //shortcut for making a new item
 		Aspect[] aspectArray = new Aspect[aspects.length];
 		for(int i = 0; i < aspects.length; i++) {
 			aspectArray[i] = a(aspects[i]);
 		}
-		ITEMDICT.put(name, new Item(name,display,aspectArray));
+		HashMap<String, Integer> propertyMap = new HashMap<String,Integer>();
+		for(String s : properties) {
+			String[] split = s.split(":");
+			propertyMap.put(split[0], Integer.parseInt(split[1]));
+		}
+		ITEMDICT.put(name, new Item(name,display,aspectArray,propertyMap));
+	}
+	
+	private static void makeIdea(String itemName, String[] aspectRecipe, String[] propertyRecipe) {
+		Aspect[] aspectArray = new Aspect[aspectRecipe.length];
+		for(int i = 0; i < aspectRecipe.length; i++) {
+			aspectArray[i] = a(aspectRecipe[i]);
+		}
+		
+		Property[] propertyArray = new Property[propertyRecipe.length]; //items are formatted "property:min:max"
+		for(int i = 0; i < propertyRecipe.length; i++) {
+			String[] splitProperty = propertyRecipe[i].split(":");
+			propertyArray[i] = new Property(splitProperty[0], Integer.parseInt(splitProperty[1]), Integer.parseInt(splitProperty[2]));
+		}
+		
+		IDEADICT.put(itemName, new Idea(aspectArray, propertyArray, i(itemName)));
 	}
 	
 	private static Aspect a(String s) { //just a shortcut for getting aspects from the dictionary
 		return ASPECTDICT.get(s);
+	}
+	
+	private static Item i(String s) { //^ but for items
+		return ITEMDICT.get(s);
 	}
 }
