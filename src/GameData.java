@@ -7,7 +7,17 @@ public class GameData {
 	public final static Map<String, Aspect> ASPECTDICT = new HashMap<String,Aspect>();
 	public final static Map<String, Item> ITEMDICT = new HashMap<String,Item>();
 	public final static Map<String, Idea> IDEADICT = new HashMap<String, Idea>();
+	public static HashMap<String,String> OPPOSITES = new HashMap<String,String>();
 	static {
+		OPPOSITES.put("north", "south");
+		OPPOSITES.put("south", "north");
+		OPPOSITES.put("west", "east");
+		OPPOSITES.put("east", "west");
+		OPPOSITES.put("up", "down");
+		OPPOSITES.put("down", "up");
+		OPPOSITES.put("in", "out");
+		OPPOSITES.put("out", "in");
+		
 		makeAspect("hard",null);
 		makeAspect("heavy",null);
 		makeAspect("smashing",new String[] {"hard","heavy"});

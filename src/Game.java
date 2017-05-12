@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 public class Game {
 
@@ -6,20 +7,28 @@ public class Game {
 			System.out.println(a);
 		}
 	
-		Player rik = new Player();
-		Item rock = new Item("rock");
-		Item club = new Item("club");
+		Player ricc = new Player();
 		
-		System.out.println(rock);
-		System.out.println(club);
-		
-		rik.consider(rock);
-		rik.consider(rock);
-		rik.consider(rock);
-		rik.consider(rock);
-		rik.consider(new Aspect[] {rik.getSpirit().get(0), rik.getSpirit().get(1)});
-		for(Aspect a : rik.getSpirit()) {
-			System.out.println(a);
+		Chunk home = new Chunk();
+		ricc.setLocation(home);
+		Scanner sc = new Scanner(System.in);
+		boolean running = true;
+		while(running) {
+			String[] arguments = sc.nextLine().split(" ");
+			switch(arguments[0]) {
+			case "stop":
+				running = false;
+				break;
+			case "move":
+			case "go":
+			case "perambulate":
+			case "nyoom":
+				String direction = arguments[1];
+				ricc.move(direction);
+				break;
+			case "consider":
+				
+			}
 		}
 	}
 	

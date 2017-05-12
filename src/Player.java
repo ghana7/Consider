@@ -9,6 +9,7 @@ public class Player {
 	private int wisdom; //capacity of spirit
 	private int intelligence; //capacity of brain
 	private int constitution; //capacity of inventory
+	private Chunk location;
 	
 	public Player() {
 		wisdom = 5;
@@ -27,6 +28,9 @@ public class Player {
 	public int getWisdom() {return wisdom;}
 	public int getIntelligence() {return intelligence;}
 	public int getConstitution() {return constitution;}
+	
+	public void setLocation(Chunk l) {location = l;}
+	public Chunk getLocation() {return location;}
 	
 	/* Adds an aspect to spirit if there is space and it does not exist in spirit yet
 	 * Returns true if the aspect was added
@@ -103,5 +107,15 @@ public class Player {
 			return addToInventory(new Item(idea.getItem().getName())); //adds the item corresponding to that idea
 		}
 		return false;
+	}
+	
+	
+	public void move(String direction) {
+		if(location.getPointer(direction) == null) {
+			Chunk c = new Chunk();
+			location.addPointer(direction,c);
+			c.addPointer(GameData.OPPOSITES.get(direction), location);
+		}
+		location = location.getPointer(direction);
 	}
 }
