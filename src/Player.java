@@ -5,14 +5,11 @@ public class Player {
 	private ArrayList<Aspect> spirit; //all the aspects currently being considered by the player
 	private ArrayList<Idea> brain; //all the ideas currently being thought of by the player
 	private ArrayList<Item> inventory; //all the items currently in the player's inventory
-	
-	private int wisdom; //capacity of spirit
 	private int intelligence; //capacity of brain
 	private int constitution; //capacity of inventory
 	private Chunk location;
 	
 	public Player() {
-		wisdom = 5;
 		intelligence = 5;
 		constitution = 5;
 		spirit = new ArrayList<Aspect>();
@@ -25,7 +22,6 @@ public class Player {
 	public ArrayList<Idea> getBrain() {return brain;}
 	public ArrayList<Item> getInventory() {return inventory;}
 	
-	public int getWisdom() {return wisdom;}
 	public int getIntelligence() {return intelligence;}
 	public int getConstitution() {return constitution;}
 	
@@ -36,7 +32,7 @@ public class Player {
 	 * Returns true if the aspect was added
 	 */
 	public boolean addToSpirit(Aspect a) {
-		if(spirit.size() < wisdom && !spirit.contains(a)) {
+		if(!spirit.contains(a)) {
 			spirit.add(a);
 			return true;
 		} else {
@@ -73,7 +69,9 @@ public class Player {
 	 */
 	public boolean consider(Item item) {
 		int randIndex = (int)(Math.random() * item.getAspects().length);
-		return addToSpirit(item.getAspects()[randIndex]);
+		Aspect a = item.getAspects()[randIndex];
+		System.out.println("The aspect of the " + a.getName() + " has been discovered");
+		return addToSpirit(a);
 	}
 	
 	/* Considers a series of aspects, adding either a resultant aspect or idea to the spirit or brain, respectively
@@ -83,12 +81,14 @@ public class Player {
 		for(String key : GameData.ASPECTDICT.keySet()) {
 			Aspect value = GameData.ASPECTDICT.get(key);
 			if(value.getRecipe() != null && Aspect.getCraftingCode(value.getRecipe()).equals(Aspect.getCraftingCode(aspects))) { //if that aspect in the dict has the same recipe as the array given
+				System.out.println("The aspect of the " + value.getName() + " has been discovered." );
 				return addToSpirit(value);
 			}
 		}
 		for(String key : GameData.IDEADICT.keySet()) {
 			Idea value = GameData.IDEADICT.get(key);
 			if(value.getRecipe() != null && Aspect.getCraftingCode(value.getRecipe()).equals(Aspect.getCraftingCode(aspects))) { //if that aspect in the dict has the same recipe as the array given
+				System.out.println("An idea for " + value.getName() + " has been created." );
 				return addToBrain(value);
 			}
 		}
@@ -117,5 +117,14 @@ public class Player {
 			c.addPointer(GameData.OPPOSITES.get(direction), location);
 		}
 		location = location.getPointer(direction);
+	}
+	
+	public Aspect getAspect(String name) {
+		for(Aspect a : spirit) {
+			if(a.getName().equals(name)) {
+				return a;
+			}
+		}
+		return null;
 	}
 }

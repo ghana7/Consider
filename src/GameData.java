@@ -39,6 +39,7 @@ public class GameData {
 		makeItem("flint","Shard of flint", new String[] {"hard","sharp"}, new String[] {"weight:1","sharpness:5"});
 		makeItem("club","Club",new String[] {"smashing"}, new String[] {"weight:23"});
 		makeItem("tree","Tree",new String[] {"long","alive"}, new String[] {"height:30","flammable:1"});
+		makeItem("stick","Stick",new String[] {"long","brittle"}, new String[] {"length:15"});
 		makeItem("hammer","Hammer",new String[] {"long","heavy","smashing","crushing"}, new String[] {"hardness:50"});
 		makeItem("campfire","Campfire",new String[] {"hot"}, new String[] {});
 		

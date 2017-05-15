@@ -9,6 +9,8 @@ public class Chunk {
 	public Chunk() {
 		items = new ArrayList<Item>();
 		pointers = new HashMap<String, Chunk>();
+		items.add(new Item("rock"));
+		items.add(new Item("tree"));
 	}
 	
 	public ArrayList<Item> getItems() {return items;}
@@ -16,4 +18,13 @@ public class Chunk {
 	public String getBiome() {return biome;}
 	public void addPointer(String direction, Chunk location) {pointers.put(direction, location);}
 	public Chunk getPointer(String direction) {return pointers.get(direction);}
+	
+	public Item getItem(String name) {
+		for(Item i : items) {
+			if(i.getName().equals(name)) {
+				return i;
+			}
+		}
+		return null;
+	}
 }
