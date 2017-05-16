@@ -11,6 +11,7 @@ public class Chunk {
 		pointers = new HashMap<String, Chunk>();
 		items.add(new Item("rock"));
 		items.add(new Item("tree"));
+		items.add(new Item("lake"));
 	}
 	
 	public ArrayList<Item> getItems() {return items;}

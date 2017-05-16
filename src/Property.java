@@ -14,10 +14,17 @@ public class Property
 		return name;
 	}
 	
-	public boolean isValid(int number) {
+	public boolean isValid(int number) { //if number fits the property
 		if(number >= minimum && number <= maximum) {
 			return true;
 		}
 		return false;
+	}
+	public String toString() {
+		String output = "";
+		output += name.substring(0,1).toUpperCase();
+		output += name.substring(1);
+		output += " of minimum " + minimum + " and maximum " + maximum;
+		return output;
 	}
 }

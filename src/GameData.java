@@ -42,6 +42,7 @@ public class GameData {
 		makeItem("stick","Stick",new String[] {"long","brittle"}, new String[] {"length:15"});
 		makeItem("hammer","Hammer",new String[] {"long","heavy","smashing","crushing"}, new String[] {"hardness:50"});
 		makeItem("campfire","Campfire",new String[] {"hot"}, new String[] {});
+		makeItem("lake","Lake",new String[] {"wet"}, new String[] {});
 		
 		makeIdea("club", new String[] {"crushing","heavy"}, new String[] {"weight:5:10"});
 		makeIdea("hammer", new String[] {"smashing","long"}, new String[] {"weight:5:15","length:10:20"});
@@ -87,7 +88,7 @@ public class GameData {
 		IDEADICT.put(itemName, new Idea(aspectArray, propertyArray, i(itemName)));
 	}
 	
-	private static Aspect a(String s) { //just a shortcut for getting aspects from the dictionary
+	private static Aspect a(String s) { //shortcut for getting aspects from the dictionary
 		return ASPECTDICT.get(s);
 	}
 	

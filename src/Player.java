@@ -58,8 +58,10 @@ public class Player {
 	public boolean addToInventory(Item i) {
 		if(inventory.size() < constitution) {
 			inventory.add(i);
+			System.out.println("You got a " + i.getDisplayName() + ".");
 			return true;
 		} else {
+			System.out.println("You can't hold any more.");
 			return false;
 		}
 	}
@@ -123,6 +125,15 @@ public class Player {
 		for(Aspect a : spirit) {
 			if(a.getName().equals(name)) {
 				return a;
+			}
+		}
+		return null;
+	}
+	
+	public Item getItem(String name) {
+		for(Item i : inventory) {
+			if(i.getName().equals(name)) {
+				return i;
 			}
 		}
 		return null;
