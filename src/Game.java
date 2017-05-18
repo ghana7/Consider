@@ -103,7 +103,18 @@ public class Game {
 						for(Property p : i.getMaterials()) {
 							System.out.println("\t" + p);
 						}
-						
+						System.out.println("Enter your items:");
+						Item[] recipe = new Item[i.getMaterials().length];
+						for(int j = 0; j < i.getMaterials().length; j++) {
+							System.out.print("Item " + (j + 1) + ": ");
+							String input = sc.nextLine();
+							recipe[j] = ricc.getItem(input);
+						}
+						if(ricc.makeItem(i, recipe)) {
+							for(Item item : recipe) {
+								ricc.getInventory().remove(item);
+							}
+						}
 					}
 				}
 				break;
