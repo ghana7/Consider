@@ -18,37 +18,47 @@ public class GameData {
 		OPPOSITES.put("in", "out");
 		OPPOSITES.put("out", "in");
 		
-		makeAspect("hard",null);
-		makeAspect("heavy",null);
-		makeAspect("smashing",new String[] {"hard","heavy"});
-		makeAspect("crushing",new String[] {"smashing","heavy"});
-		makeAspect("long",null);
-		makeAspect("brittle",null);
-		makeAspect("wet",null);
-		makeAspect("thick",new String[] {"wet","heavy"});
-		makeAspect("crystalline",new String[] {"hard","brittle"});
-		makeAspect("bright",null);
-		makeAspect("shiny",new String[] {"crystalline","bright"});
-		makeAspect("metallic",new String[] {"shiny","hard"});
-		makeAspect("alive",null);
-		makeAspect("sharp",null);
-		makeAspect("hot",null);
+		makeAspect("hard");
+		makeAspect("heavy");
+		makeAspect("smashing",		new String[] {"hard","heavy"});
+		makeAspect("crushing",		new String[] {"smashing","heavy"});
+		makeAspect("long");
+		makeAspect("brittle");
+		makeAspect("wet");
+		makeAspect("thick",			new String[] {"wet","heavy"});
+		makeAspect("crystalline",	new String[] {"hard","brittle"});
+		makeAspect("bright");
+		makeAspect("shiny",			new String[] {"crystalline","bright"});
+		makeAspect("metallic",		new String[] {"shiny","hard"});
+		makeAspect("alive");
+		makeAspect("sharp");
+		makeAspect("hot");
+		makeAspect("stabbing",		new String[] {"sharp","long"});
+		makeAspect("slashing",		new String[] {"sharp","hard"});
+		makeAspect("light");
+		makeAspect("hollow",		new String[] {"light","heavy"});
 		
 		
-		makeItem("rock","Rock",new String[] {"heavy","hard"}, new String[] {"weight:7"});
-		makeItem("flint","Shard of flint", new String[] {"hard","sharp"}, new String[] {"weight:1","sharpness:5"});
-		makeItem("club","Club",new String[] {"smashing"}, new String[] {"weight:23"});
-		makeItem("tree","Tree",new String[] {"long","alive"}, new String[] {"height:30","flammable:1"});
-		makeItem("stick","Stick",new String[] {"long","brittle"}, new String[] {"length:15"});
-		makeItem("hammer","Hammer",new String[] {"long","heavy","smashing","crushing"}, new String[] {"hardness:50"});
-		makeItem("campfire","Campfire",new String[] {"hot"}, new String[] {});
-		makeItem("lake","Lake",new String[] {"wet"}, new String[] {});
+		
+		makeItem("rock","Rock",new String[] {"heavy","hard"}, new String[] {"weight:7"}, true);
+		makeItem("flint","Shard of flint", new String[] {"hard","sharp"}, new String[] {"weight:1","sharpness:10"}, true);
+		makeItem("club","Club",new String[] {"smashing"}, new String[] {"weight:23"}, true);
+		makeItem("tree","Tree",new String[] {"long","alive"}, new String[] {"height:30","flammable:1"}, false);
+		makeItem("stick","Stick",new String[] {"long","brittle"}, new String[] {"length:15"}, true);
+		makeItem("hammer","Hammer",new String[] {"long","heavy","smashing","crushing"}, new String[] {"hardness:50"}, true);
+		makeItem("campfire","Campfire",new String[] {"hot"}, new String[] {}, false);
+		makeItem("lake","Lake",new String[] {"wet"}, new String[] {}, false);
+		makeItem("saw","Saw",new String[] {"sharp","slashing"}, new String[] {"sharpness:10"}, true);
 		
 		makeIdea("club", new String[] {"crushing","heavy"}, new String[] {"weight:5:10"});
 		makeIdea("hammer", new String[] {"smashing","long"}, new String[] {"weight:5:15","length:10:20"});
 		makeIdea("campfire", new String[] {"hard","hot"}, new String[] {"sharpness:5:15","hardness:10:20","flammable:1:1"});
+		makeIdea("saw", new String[] {"slashing","long"}, new String[] {"sharpness:10:20","length:5:20"});
 	}
 	
+	private static void makeAspect(String name) { //for base aspects only
+		makeAspect(name,null);
+	}
 	private static void makeAspect(String name, String[] ingredients) { //shortcut for making a new aspect
 		ASPECTDICT.put(name, new Aspect(name));
 		if(ingredients != null) {
@@ -60,7 +70,7 @@ public class GameData {
 		}
 	}
 	
-	private static void makeItem(String name, String display, String[] aspects, String[] properties) { //shortcut for making a new item
+	private static void makeItem(String name, String display, String[] aspects, String[] properties, boolean moveable) { //shortcut for making a new item
 		Aspect[] aspectArray = new Aspect[aspects.length];
 		for(int i = 0; i < aspects.length; i++) {
 			aspectArray[i] = a(aspects[i]);
@@ -70,7 +80,7 @@ public class GameData {
 			String[] split = s.split(":");
 			propertyMap.put(split[0], Integer.parseInt(split[1]));
 		}
-		ITEMDICT.put(name, new Item(name,display,aspectArray,propertyMap));
+		ITEMDICT.put(name, new Item(name,display,aspectArray,propertyMap, moveable));
 	}
 	
 	private static void makeIdea(String itemName, String[] aspectRecipe, String[] propertyRecipe) {

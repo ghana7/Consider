@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
@@ -6,11 +8,12 @@ public class Game {
 		/*
 		for(Aspect a : GameData.ASPECTDICT.values()) {
 			System.out.println(a);
-		}*/
+		}
+		*/
 	
 		Player ricc = new Player();
-		
 		Chunk home = new Chunk();
+		ArrayList<Chunk> map = new ArrayList<Chunk>();
 		ricc.setLocation(home);
 		Scanner sc = new Scanner(System.in);
 		boolean running = true;
@@ -43,7 +46,12 @@ public class Game {
 				} else {
 					Item i = ricc.getLocation().getItem(arguments[1]);
 					if(i == null) {
-						System.out.println("Inspect what?");
+						i = ricc.getItem(arguments[1]);
+						if(i == null) {
+							System.out.println("Inspect what?");
+						} else {
+							ricc.consider(i);
+						}
 					} else {
 						ricc.consider(i);
 					}
@@ -67,8 +75,12 @@ public class Game {
 					if(i == null) {
 						System.out.println("There is no " + arguments[1] + " here.");
 					} else {
-						if(ricc.addToInventory(i)) {
-							ricc.getLocation().getItems().remove(i);
+						if(i.isMoveable()) {
+							if(ricc.addToInventory(i)) {
+								ricc.getLocation().getItems().remove(i);
+							}
+						} else {
+							System.out.println("You can't move that.");
 						}
 					}
 				}

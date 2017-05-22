@@ -10,8 +10,15 @@ public class Chunk {
 		items = new ArrayList<Item>();
 		pointers = new HashMap<String, Chunk>();
 		items.add(new Item("rock"));
+		items.add(new Item("rock"));
+		items.add(new Item("rock"));
+		items.add(new Item("rock"));
+		items.add(new Item("rock"));
+		items.add(new Item("rock"));
 		items.add(new Item("tree"));
 		items.add(new Item("lake"));
+		items.add(new Item("flint"));
+		items.add(new Item("stick"));
 	}
 	
 	public ArrayList<Item> getItems() {return items;}
