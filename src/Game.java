@@ -12,7 +12,7 @@ public class Game {
 		*/
 	
 		Player ricc = new Player();
-		Chunk home = new Chunk();
+		Chunk home = new Chunk(0,0);
 		ArrayList<Chunk> map = new ArrayList<Chunk>();
 		ricc.setLocation(home);
 		Scanner sc = new Scanner(System.in);
@@ -29,7 +29,7 @@ public class Game {
 			case "perambulate":
 			case "nyoom":
 				String direction = arguments[1];
-				ricc.move(direction);
+				ricc.move(direction, map);
 				break;
 			case "consider":
 				Aspect a1 = ricc.getAspect(arguments[1]);
@@ -63,6 +63,8 @@ public class Game {
 				}
 				break;
 			case "look":
+				System.out.println(ricc.getLocation().getX());
+				System.out.println(ricc.getLocation().getY());
 				for(Item i : ricc.getLocation().getItems()) {
 					System.out.println(i.getDisplayName());
 				}

@@ -13,10 +13,6 @@ public class GameData {
 		OPPOSITES.put("south", "north");
 		OPPOSITES.put("west", "east");
 		OPPOSITES.put("east", "west");
-		OPPOSITES.put("up", "down");
-		OPPOSITES.put("down", "up");
-		OPPOSITES.put("in", "out");
-		OPPOSITES.put("out", "in");
 		
 		makeAspect("hard");
 		makeAspect("heavy");

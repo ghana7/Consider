@@ -112,11 +112,47 @@ public class Player {
 	}
 	
 	
-	public void move(String direction) {
+	public void move(String direction, ArrayList<Chunk> map) {
 		if(location.getPointer(direction) == null) {
-			Chunk c = new Chunk();
-			location.addPointer(direction,c);
-			c.addPointer(GameData.OPPOSITES.get(direction), location);
+			int oldX = location.getX();
+			int oldY = location.getY();
+			int newX = oldX;
+			int newY = oldY;
+			boolean correct = true;
+			Chunk c;
+			switch(direction) {
+			case "west":
+				newX--;
+				break;
+			case "east":
+				newX++;
+				break;
+			case "north":
+				newY++;
+				break;
+			case "south":
+				newY--;
+				break;
+			default:
+				correct = false;
+				break;
+			}
+			if(correct) {
+				c = new Chunk(newX,newY);
+				boolean locationExists = false;
+				for(Chunk ch : map) {
+					if(ch.getX() == c.getX() && ch.getY() == c.getY()) {
+						c = ch;
+						locationExists = true;
+					}
+				}
+				if(!locationExists) {
+					map.add(c);
+				}
+				
+				location.addPointer(direction,c);
+				c.addPointer(GameData.OPPOSITES.get(direction), location);
+			}
 		}
 		location = location.getPointer(direction);
 	}
