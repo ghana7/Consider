@@ -14,6 +14,7 @@ public class Game {
 		Player ricc = new Player();
 		Chunk home = new Chunk(0,0);
 		ArrayList<Chunk> map = new ArrayList<Chunk>();
+		map.add(home);
 		ricc.setLocation(home);
 		Scanner sc = new Scanner(System.in);
 		boolean running = true;
@@ -128,6 +129,7 @@ public class Game {
 							for(Item item : recipe) {
 								ricc.getInventory().remove(item);
 							}
+							System.out.println("You crafted " + i.getName() + "!");
 						}
 					}
 				}

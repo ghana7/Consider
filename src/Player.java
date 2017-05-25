@@ -102,6 +102,7 @@ public class Player {
 			for(int i = 0; i < materials.length; i++) {
 				Property p = idea.getMaterials()[i];
 				if(!p.isValid(materials[i].getPropertyValue(p.getName()))) { //if the property from the i'th item has a valid value for property i
+					System.out.println("Material " + (i + 1) + " failed to meet requirements.");
 					return false;
 				}
 			}
@@ -142,16 +143,16 @@ public class Player {
 				boolean locationExists = false;
 				for(Chunk ch : map) {
 					if(ch.getX() == c.getX() && ch.getY() == c.getY()) {
-						c = ch;
+						location.addPointer(direction,ch);
+						ch.addPointer(GameData.OPPOSITES.get(direction), location);
 						locationExists = true;
 					}
 				}
 				if(!locationExists) {
 					map.add(c);
+					location.addPointer(direction,c);
+					c.addPointer(GameData.OPPOSITES.get(direction), location);
 				}
-				
-				location.addPointer(direction,c);
-				c.addPointer(GameData.OPPOSITES.get(direction), location);
 			}
 		}
 		location = location.getPointer(direction);

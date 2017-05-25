@@ -14,8 +14,8 @@ public class Property
 		return name;
 	}
 	
-	public boolean isValid(int number) { //if number fits the property
-		if(number >= minimum && number <= maximum) {
+	public boolean isValid(Integer number) { //if number fits the property
+		if(number != null && number >= minimum && number <= maximum) {
 			return true;
 		}
 		return false;
