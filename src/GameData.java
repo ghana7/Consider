@@ -1,9 +1,10 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GameData {
 
-	
+	public final static Map<String, Biome> BIOMEDICT = new HashMap<String,Biome>();
 	public final static Map<String, Aspect> ASPECTDICT = new HashMap<String,Aspect>();
 	public final static Map<String, Item> ITEMDICT = new HashMap<String,Item>();
 	public final static Map<String, Idea> IDEADICT = new HashMap<String, Idea>();
@@ -43,15 +44,28 @@ public class GameData {
 		makeItem("stick","Stick",new String[] {"long","brittle"}, new String[] {"length:15"}, true);
 		makeItem("hammer","Hammer",new String[] {"long","heavy","smashing","crushing"}, new String[] {"hardness:50"}, true);
 		makeItem("campfire","Campfire",new String[] {"hot"}, new String[] {}, false);
-		makeItem("lake","Lake",new String[] {"wet"}, new String[] {}, false);
+		makeItem("lake","Lake",new String[] {"wet"}, new String[] {"moisture:1000"}, false);
 		makeItem("saw","Saw",new String[] {"sharp","slashing"}, new String[] {"sharpness:10"}, true);
+		makeItem("cactus","Cactus",new String[] {"sharp","alive","wet"}, new String[] {"sharpness:3","moisture:50"}, false);
+		makeItem("sandstone","Sandstone chunk", new String[] {"hard","brittle","light"}, new String[] {"hardness:5"}, true);
+		makeItem("bone","Small bone", new String[] {"hard","long","hollow"}, new String[] {"length:20"}, true);
+		makeItem("grass","Wild grass", new String[] {"long","alive","light"}, new String[] {"moisture:20","flammable:1"},true);
 		
 		makeIdea("club", new String[] {"crushing","heavy"}, new String[] {"weight:5:10"});
-		makeIdea("hammer", new String[] {"smashing","long"}, new String[] {"weight:5:15","length:10:20"});
+		makeIdea("hammer", new String[] {"smashing","long"}, new String[] {"weight:5:15","length:10:30"});
 		makeIdea("campfire", new String[] {"hard","hot"}, new String[] {"sharpness:5:15","hardness:10:20","flammable:1:1"});
 		makeIdea("saw", new String[] {"slashing","long"}, new String[] {"sharpness:10:20","length:5:20"});
-	}
 	
+		makeBiome("forest", 7, new String[] {"tree:5","lake:2","rock:10","flint:2","stick:10"});
+		makeBiome("desert", 4, new String[] {"cactus:10","lake:1","sandstone:5","bone:2"});
+		makeBiome("plains", 11, new String[] {"tree:1","lake:3","grass:10"});
+		
+	}
+	public static Biome getRandomBiome() {
+		int length = BIOMEDICT.keySet().size();
+		String randomKey = (new ArrayList<String>(BIOMEDICT.keySet())).get((int)(Math.random() * length));
+		return BIOMEDICT.get(randomKey);
+	}
 	private static void makeAspect(String name) { //for base aspects only
 		makeAspect(name,null);
 	}
@@ -94,6 +108,14 @@ public class GameData {
 		IDEADICT.put(itemName, new Idea(aspectArray, propertyArray, i(itemName)));
 	}
 	
+	private static void makeBiome(String name, int itemDensity, String[] itemWeights) {
+		HashMap<Item,Integer> inputMap = new HashMap<Item,Integer>();
+		for(String s : itemWeights) {
+			String[] split = s.split(":");
+			inputMap.put(i(split[0]), Integer.parseInt(split[1]));
+		}
+		BIOMEDICT.put(name, new Biome(name, itemDensity, inputMap));
+	}
 	private static Aspect a(String s) { //shortcut for getting aspects from the dictionary
 		return ASPECTDICT.get(s);
 	}

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -12,10 +13,11 @@ public class Game {
 		*/
 	
 		Player ricc = new Player();
-		Chunk home = new Chunk(0,0);
+		Chunk home = new Chunk(0,0, GameData.getRandomBiome());
 		ArrayList<Chunk> map = new ArrayList<Chunk>();
 		map.add(home);
 		ricc.setLocation(home);
+		look(ricc);
 		Scanner sc = new Scanner(System.in);
 		boolean running = true;
 		while(running) {
@@ -25,20 +27,17 @@ public class Game {
 			case "stop":
 				running = false;
 				break;
-			case "move":
-			case "go":
-			case "perambulate":
-			case "nyoom":
-				String direction = arguments[1];
-				ricc.move(direction, map);
-				break;
 			case "consider":
-				Aspect a1 = ricc.getAspect(arguments[1]);
-				Aspect a2 = ricc.getAspect(arguments[2]);
-				if(a1 == null || a2 == null) {
+				if(arguments.length < 3) {
 					System.out.println("Not enough arguments");
 				} else {
-					ricc.consider(new Aspect[] {a1, a2});
+					Aspect a1 = ricc.getAspect(arguments[1]);
+					Aspect a2 = ricc.getAspect(arguments[2]);
+					if(a1 == null || a2 == null) {
+						System.out.println("Not enough arguments");
+					} else {
+						ricc.consider(new Aspect[] {a1, a2});
+					}
 				}
 				break;
 			case "inspect":
@@ -63,12 +62,14 @@ public class Game {
 					System.out.println(a);
 				}
 				break;
+			case "move":
+			case "go":
+			case "perambulate":
+			case "nyoom":
+				String direction = arguments[1];
+				ricc.move(direction, map);
 			case "look":
-				System.out.println(ricc.getLocation().getX());
-				System.out.println(ricc.getLocation().getY());
-				for(Item i : ricc.getLocation().getItems()) {
-					System.out.println(i.getDisplayName());
-				}
+				look(ricc);
 				break;
 			case "take":
 				if(arguments.length < 2) {
@@ -140,6 +141,25 @@ public class Game {
 			}
 		}
 	}
-	
+	public static void look(Player p) {
+		String output = "You find yourself in a " + p.getLocation().getBiome().getName() + ".\nAround you you see ";
+		HashMap<String, Integer> itemCount = new HashMap<String,Integer>();
+		for(Item i : p.getLocation().getItems()) {
+			if(itemCount.get(i.getDisplayName()) != null) {
+				itemCount.put(i.getDisplayName(), itemCount.get(i.getDisplayName()) + 1);
+			} else {
+				itemCount.put(i.getDisplayName(), 1);
+			}
+		}
+		for(String s : itemCount.keySet()) {
+			output += "" + itemCount.get(s) + " " + s;
+			if(itemCount.get(s) > 1) {
+				output += "s";
+			}
+			output += ", ";
+		}
+		output = output.substring(0, output.length() - 2);
+		System.out.println(output);
+	}
 	
 }

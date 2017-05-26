@@ -139,7 +139,7 @@ public class Player {
 				break;
 			}
 			if(correct) {
-				c = new Chunk(newX,newY);
+				c = new Chunk(newX,newY, GameData.getRandomBiome());
 				boolean locationExists = false;
 				for(Chunk ch : map) {
 					if(ch.getX() == c.getX() && ch.getY() == c.getY()) {
