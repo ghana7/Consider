@@ -67,7 +67,12 @@ public class Game {
 			case "perambulate":
 			case "nyoom":
 				String direction = arguments[1];
-				ricc.move(direction, map);
+				if(GameData.OPPOSITES.keySet().contains(direction)) {
+					ricc.move(direction, map);
+				} else {
+					System.out.println("You can't move that way.");
+					break;
+				}
 			case "look":
 				look(ricc);
 				break;
@@ -135,6 +140,30 @@ public class Game {
 					}
 				}
 				break;
+			case "help":
+			case "?":
+				System.out.println("Help:");
+				System.out.println("\tquit:");
+				System.out.println("\t\tquits the game");
+				System.out.println("\tconsider <aspect1> <aspect2>");
+				System.out.println("\t\tthinks about aspect1 and aspect2 and creates the result aspect or idea.");
+				System.out.println("\tinspect:");
+				System.out.println("\t\tgathers a random aspect from an item in the world or your inventory.");
+				System.out.println("\taspectualize:");
+				System.out.println("\t\tdisplays all known aspects.");
+				System.out.println("\tmove|go <direction>:");
+				System.out.println("\t\tmoves in direction north, south, east, or west.");
+				System.out.println("\tlook:");
+				System.out.println("\t\tlooks around the player's current location.");
+				System.out.println("\ttake <item>:");
+				System.out.println("\t\ttakes item from the location.");
+				System.out.println("\tdrop <item>:");
+				System.out.println("\t\tdrops item from the player's inventory.");
+				System.out.println("\tinventory:");
+				System.out.println("\t\tshows all items in the player's inventory.");
+				System.out.println("\tcraft <idea>:");
+				System.out.println("\t\tbegins the crafting of the item corresponding to idea.");
+				break;
 			default:
 				System.out.println("What?");
 				break;
@@ -146,17 +175,24 @@ public class Game {
 		HashMap<String, Integer> itemCount = new HashMap<String,Integer>();
 		for(Item i : p.getLocation().getItems()) {
 			if(itemCount.get(i.getDisplayName()) != null) {
-				itemCount.put(i.getDisplayName(), itemCount.get(i.getDisplayName()) + 1);
+				if(itemCount.get(i.getPluralName()) != null) {
+					itemCount.put(i.getPluralName(), itemCount.get(i.getPluralName()) + 1);
+				} else {
+					itemCount.put(i.getPluralName(), 2);
+					itemCount.put(i.getDisplayName(), 0);
+				}
+				
 			} else {
 				itemCount.put(i.getDisplayName(), 1);
 			}
 		}
 		for(String s : itemCount.keySet()) {
-			output += "" + itemCount.get(s) + " " + s;
-			if(itemCount.get(s) > 1) {
-				output += "s";
+			
+			if(itemCount.get(s) > 0) {
+				output += "" + itemCount.get(s) + " " + s;
+				output += ", ";
 			}
-			output += ", ";
+			
 		}
 		output = output.substring(0, output.length() - 2);
 		System.out.println(output);

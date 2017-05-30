@@ -34,23 +34,27 @@ public class GameData {
 		makeAspect("slashing",		new String[] {"sharp","hard"});
 		makeAspect("light");
 		makeAspect("hollow",		new String[] {"light","heavy"});
+		makeAspect("piercing",		new String[] {"stabbing","sharp"});
 		
 		
 		
-		makeItem("rock","Rock",new String[] {"heavy","hard"}, new String[] {"weight:7"}, true);
-		makeItem("flint","Shard of flint", new String[] {"hard","sharp"}, new String[] {"weight:1","sharpness:10"}, true);
-		makeItem("club","Club",new String[] {"smashing"}, new String[] {"weight:23"}, true);
-		makeItem("tree","Tree",new String[] {"long","alive"}, new String[] {"height:30","flammable:1"}, false);
-		makeItem("stick","Stick",new String[] {"long","brittle"}, new String[] {"length:15"}, true);
-		makeItem("hammer","Hammer",new String[] {"long","heavy","smashing","crushing"}, new String[] {"hardness:50"}, true);
-		makeItem("campfire","Campfire",new String[] {"hot"}, new String[] {}, false);
-		makeItem("lake","Lake",new String[] {"wet"}, new String[] {"moisture:1000"}, false);
-		makeItem("saw","Saw",new String[] {"sharp","slashing"}, new String[] {"sharpness:10"}, true);
-		makeItem("cactus","Cactus",new String[] {"sharp","alive","wet"}, new String[] {"sharpness:3","moisture:50"}, false);
-		makeItem("sandstone","Sandstone chunk", new String[] {"hard","brittle","light"}, new String[] {"hardness:5"}, true);
-		makeItem("bone","Small bone", new String[] {"hard","long","hollow"}, new String[] {"length:20"}, true);
-		makeItem("grass","Wild grass", new String[] {"long","alive","light"}, new String[] {"moisture:20","flammable:1"},true);
+		makeItem("rock","Rock","Rocks",new String[] {"heavy","hard"}, new String[] {"weight:7"}, true);
+		makeItem("flint","Shard of flint","Shards of flint", new String[] {"hard","sharp"}, new String[] {"weight:1","sharpness:10"}, true);
+		makeItem("club","Club","Clubs",new String[] {"smashing"}, new String[] {"weight:23"}, true);
+		makeItem("tree","Tree","Trees",new String[] {"long","alive"}, new String[] {"height:30","flammable:1"}, false);
+		makeItem("stick","Stick","Sticks",new String[] {"long","brittle"}, new String[] {"length:15"}, true);
+		makeItem("hammer","Hammer","Hammers",new String[] {"long","heavy","smashing","crushing"}, new String[] {"hardness:50"}, true);
+		makeItem("campfire","Campfire","Campfires",new String[] {"hot"}, new String[] {}, false);
+		makeItem("lake","Lake","Lakes",new String[] {"wet"}, new String[] {"moisture:1000"}, false);
+		makeItem("saw","Saw","Saws",new String[] {"sharp","slashing"}, new String[] {"sharpness:10"}, true);
+		makeItem("cactus","Cactus","Cacti",new String[] {"sharp","alive","wet"}, new String[] {"sharpness:3","moisture:50"}, false);
+		makeItem("sandstone","Sandstone chunk","Sandstone chunks",new String[] {"hard","brittle","light"}, new String[] {"hardness:5"}, true);
+		makeItem("bone","Small bone","Small bones", new String[] {"hard","long","hollow"}, new String[] {"length:20"}, true);
+		makeItem("grass","Wild grass","Wild grasses", new String[] {"long","alive","light"}, new String[] {"moisture:20","flammable:1"},true);
+		makeItem("pickaxe", "Pickaxe","Pickaxes", new String[] {"hard","long","sharp","piercing"}, new String[] {"hardness:50"}, true);
+		makeItem("ore","Ore vein","Ore veins", new String[] {"hard","metallic","shiny"}, new String[] {"hardness:35"},false);
 		
+		makeIdea("pickaxe", new String[] {"piercing","long"}, new String[] {"hardness:10:50","length:10:30"});
 		makeIdea("club", new String[] {"crushing","heavy"}, new String[] {"weight:5:10"});
 		makeIdea("hammer", new String[] {"smashing","long"}, new String[] {"weight:5:15","length:10:30"});
 		makeIdea("campfire", new String[] {"hard","hot"}, new String[] {"sharpness:5:15","hardness:10:20","flammable:1:1"});
@@ -59,6 +63,7 @@ public class GameData {
 		makeBiome("forest", 7, new String[] {"tree:5","lake:2","rock:10","flint:2","stick:10"});
 		makeBiome("desert", 4, new String[] {"cactus:10","lake:1","sandstone:5","bone:2"});
 		makeBiome("plains", 11, new String[] {"tree:1","lake:3","grass:10"});
+		makeBiome("mountain", 5, new String[] {"rock:15","bone:2","flint:5","grass:1","ore:4"});
 		
 	}
 	public static Biome getRandomBiome() {
@@ -80,7 +85,7 @@ public class GameData {
 		}
 	}
 	
-	private static void makeItem(String name, String display, String[] aspects, String[] properties, boolean moveable) { //shortcut for making a new item
+	private static void makeItem(String name, String display, String plural, String[] aspects, String[] properties, boolean moveable) { //shortcut for making a new item
 		Aspect[] aspectArray = new Aspect[aspects.length];
 		for(int i = 0; i < aspects.length; i++) {
 			aspectArray[i] = a(aspects[i]);
@@ -90,7 +95,7 @@ public class GameData {
 			String[] split = s.split(":");
 			propertyMap.put(split[0], Integer.parseInt(split[1]));
 		}
-		ITEMDICT.put(name, new Item(name,display,aspectArray,propertyMap, moveable));
+		ITEMDICT.put(name, new Item(name,display,plural,aspectArray,propertyMap, moveable));
 	}
 	
 	private static void makeIdea(String itemName, String[] aspectRecipe, String[] propertyRecipe) {
