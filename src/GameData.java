@@ -38,11 +38,11 @@ public class GameData {
 		
 		
 		
-		makeItem("rock","Rock","Rocks",new String[] {"heavy","hard"}, new String[] {"weight:7"}, true);
+		makeItem("rock","Rock","Rocks",new String[] {"heavy","hard"}, new String[] {"weight:7","hardness:15"}, true);
 		makeItem("flint","Shard of flint","Shards of flint", new String[] {"hard","sharp"}, new String[] {"weight:1","sharpness:10"}, true);
 		makeItem("club","Club","Clubs",new String[] {"smashing"}, new String[] {"weight:23"}, true);
 		makeItem("tree","Tree","Trees",new String[] {"long","alive"}, new String[] {"height:30","flammable:1"}, false);
-		makeItem("stick","Stick","Sticks",new String[] {"long","brittle"}, new String[] {"length:15"}, true);
+		makeItem("stick","Stick","Sticks",new String[] {"long","brittle"}, new String[] {"length:15","flammable:1"}, true);
 		makeItem("hammer","Hammer","Hammers",new String[] {"long","heavy","smashing","crushing"}, new String[] {"hardness:50"}, true);
 		makeItem("campfire","Campfire","Campfires",new String[] {"hot"}, new String[] {}, false);
 		makeItem("lake","Lake","Lakes",new String[] {"wet"}, new String[] {"moisture:1000"}, false);
@@ -53,14 +53,16 @@ public class GameData {
 		makeItem("grass","Wild grass","Wild grasses", new String[] {"long","alive","light"}, new String[] {"moisture:20","flammable:1"},true);
 		makeItem("pickaxe", "Pickaxe","Pickaxes", new String[] {"hard","long","sharp","piercing"}, new String[] {"hardness:50"}, true);
 		makeItem("ore","Ore vein","Ore veins", new String[] {"hard","metallic","shiny"}, new String[] {"hardness:35"},false);
-		makeItem("pebble","Pebble","Pebbles", new String[] {"hard","light"}, new String[] {"hardness:9"},true);
+		makeItem("pebble","Pebble","Pebbles", new String[] {"hard","light"}, new String[] {"weight:4"},true);
+		makeItem("powder","Crushed grass powder","Crushed grass powder", new String[] {"alive","light"}, new String[] {"flammable:1"}, true);
+		
 		setInteractions("rock",new String[] {"smash:hammer:pebble:3:true"});
 		
-		makeIdea("pickaxe", new String[] {"piercing","long"}, new String[] {"hardness:10:50","length:10:30"});
-		makeIdea("club", new String[] {"crushing","heavy"}, new String[] {"weight:5:10"});
-		makeIdea("hammer", new String[] {"smashing","long"}, new String[] {"weight:5:15","length:10:30"});
-		makeIdea("campfire", new String[] {"hard","hot"}, new String[] {"sharpness:5:15","hardness:10:20","flammable:1:1"});
-		makeIdea("saw", new String[] {"slashing","long"}, new String[] {"sharpness:10:20","length:5:20"});
+		makeIdea("pickaxe", new String[] {"piercing","long"}, new String[] {"hardness:10:50","length:10:30"},null);
+		makeIdea("club", new String[] {"crushing","heavy"}, new String[] {"weight:5:10"},null);
+		makeIdea("hammer", new String[] {"smashing","long"}, new String[] {"weight:5:15","length:10:30"},null);
+		makeIdea("campfire", new String[] {"hard","hot"}, new String[] {"sharpness:5:15","hardness:10:20","flammable:1:1"},null);
+		makeIdea("saw", new String[] {"slashing","long"}, new String[] {"sharpness:10:20","length:5:20"},null);
 	
 		makeBiome("forest", 7, new String[] {"tree:5","lake:2","rock:10","flint:2","stick:10"});
 		makeBiome("desert", 4, new String[] {"cactus:10","lake:1","sandstone:5","bone:2"});
@@ -110,7 +112,7 @@ public class GameData {
 		}
 		i(itemName).setInteractions(interactionMap);
 	}
-	private static void makeIdea(String itemName, String[] aspectRecipe, String[] propertyRecipe) {
+	private static void makeIdea(String itemName, String[] aspectRecipe, String[] propertyRecipe, String auraName) {
 		Aspect[] aspectArray = new Aspect[aspectRecipe.length];
 		for(int i = 0; i < aspectRecipe.length; i++) {
 			aspectArray[i] = a(aspectRecipe[i]);
@@ -122,7 +124,7 @@ public class GameData {
 			propertyArray[i] = new Property(splitProperty[0], Integer.parseInt(splitProperty[1]), Integer.parseInt(splitProperty[2]));
 		}
 		
-		IDEADICT.put(itemName, new Idea(aspectArray, propertyArray, i(itemName)));
+		IDEADICT.put(itemName, new Idea(aspectArray, propertyArray, i(itemName), i(auraName)));
 	}
 	
 	private static void makeBiome(String name, int itemDensity, String[] itemWeights) {

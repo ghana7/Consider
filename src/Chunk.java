@@ -36,4 +36,8 @@ public class Chunk {
 		}
 		return null;
 	}
+	
+	public boolean hasItem(String name) {
+		return getItem(name) != null;
+	}
 }

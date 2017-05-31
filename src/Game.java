@@ -119,11 +119,16 @@ public class Game {
 				} else {
 					Idea i = GameData.IDEADICT.get(arguments[1]);
 					if(i == null) {
-						System.out.println("You don't have that recipe.");
+						System.out.println("That recipe doesn't exist.");
+					} else if (!ricc.hasIdea(i.getName())) {
+						System.out.println("You don't have that idea.");
 					} else {
 						System.out.println("This recipe requires items with:");
 						for(Property p : i.getMaterials()) {
 							System.out.println("\t" + p);
+						}
+						if(i.getAura() != null) {
+							System.out.println("\tIn addition, there must be a " + i.getAura().getDisplayName() + " nearby.");
 						}
 						System.out.println("Enter your items:");
 						Item[] recipe = new Item[i.getMaterials().length];
@@ -136,7 +141,11 @@ public class Game {
 							for(Item item : recipe) {
 								ricc.getInventory().remove(item);
 							}
-							System.out.println("You crafted " + i.getName() + "!");
+							if(!ricc.getItem(i.getName()).isMoveable()) {
+								System.out.println("The " + ricc.getItem(i.getName()).getDisplayName() + " was placed on the ground.");
+								ricc.getLocation().addItem(ricc.getItem(i.getName()));
+								ricc.getInventory().remove(ricc.getItem(i.getName()));
+							}
 						}
 					}
 				}

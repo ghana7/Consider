@@ -107,7 +107,13 @@ public class Player {
 				}
 			}
 			//THIS NEEDS TO BE CHANGED TO TAKE INTO CONSIDERATION ITEM STATS
-			return addToInventory(new Item(idea.getItem().getName())); //adds the item corresponding to that idea
+			if(location.hasItem(idea.getAura().getName())) {
+				return addToInventory(new Item(idea.getItem().getName())); //adds the item corresponding to that idea
+			} else {
+				System.out.println("The area is missing a " + idea.getAura().getDisplayName() + ".");
+				return false;
+			}
+			
 		}
 		return false;
 	}
@@ -191,5 +197,17 @@ public class Player {
 	}
 	public boolean hasItem(String name) {
 		return getItem(name) != null;
+	}
+	
+	public Idea getIdea(String name) {
+		for(Idea i : brain) {
+			if(i.getName().equals(name)) {
+				return i;
+			}
+		}
+		return null;
+	}
+	public boolean hasIdea(String name) {
+		return getIdea(name) != null;
 	}
 }
