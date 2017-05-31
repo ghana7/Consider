@@ -107,6 +107,7 @@ public class Game {
 						System.out.println("You dropped the " + i.getDisplayName() + ".");
 					}
 				}
+				break;
 			case "inventory":
 				for(Item i : ricc.getInventory()) {
 					System.out.println(i.getDisplayName());
@@ -164,8 +165,33 @@ public class Game {
 				System.out.println("\tcraft <idea>:");
 				System.out.println("\t\tbegins the crafting of the item corresponding to idea.");
 				break;
+			case "cheat":
+				ricc.addItem(arguments[1]);
+				break;
 			default:
-				System.out.println("What?");
+				if(arguments.length > 1) {
+					if(ricc.hasItem(arguments[1])) {
+						for(String action : ricc.getItem(arguments[1]).getInteractions().keySet()) {
+							if(action.equals(arguments[0])) {
+								Interaction interaction = ricc.getItem(arguments[1]).getInteraction(action);
+								if(ricc.hasItem(interaction.getToolItem().getName())) {
+									for(int i = 0; i < interaction.getCount(); i++) {
+										ricc.addItem(interaction.getResultItem().getName());
+									}
+									if(interaction.getDestroys()) {
+										ricc.dropItem(ricc.getItem(arguments[1]).getName());
+									}
+									break;
+								}
+							}
+						}
+					} else {
+						System.out.println("You can't " + arguments[0] + " that.");
+					}
+				} else {
+					System.out.println("You can't do that.");
+				}
+				
 				break;
 			}
 		}

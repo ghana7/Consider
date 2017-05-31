@@ -41,7 +41,11 @@ public class Item {
 	public HashMap<String, Integer> getPropertyValues() {return propertyValues;}
 	public boolean isMoveable() {return moveable;}
 	public Interaction getInteraction(String command) {return interactions.get(command);}
+	public HashMap<String, Interaction> getInteractions() {return interactions;}
 	
+	public void setInteractions(HashMap<String,Interaction> map) {
+		interactions = map;
+	}
 	public String toString() {
 		String output = getName() + ":\nAspects:\n";
 		for(Aspect a : getAspects()) {

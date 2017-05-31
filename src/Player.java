@@ -175,4 +175,21 @@ public class Player {
 		}
 		return null;
 	}
+	
+	public void addItem(String name) {
+		inventory.add(new Item(name));
+	}
+	public void dropItem(String name) {
+		Item toRemove = null;
+		for(Item i : inventory) {
+			if(i.getName().equals(name)) {
+				toRemove = i;
+				break;
+			}
+		}
+		inventory.remove(toRemove);
+	}
+	public boolean hasItem(String name) {
+		return getItem(name) != null;
+	}
 }
