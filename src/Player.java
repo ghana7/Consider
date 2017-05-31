@@ -107,7 +107,7 @@ public class Player {
 				}
 			}
 			//THIS NEEDS TO BE CHANGED TO TAKE INTO CONSIDERATION ITEM STATS
-			if(location.hasItem(idea.getAura().getName())) {
+			if(idea.getAura() == null || location.hasItem(idea.getAura().getName())) {
 				return addToInventory(new Item(idea.getItem().getName())); //adds the item corresponding to that idea
 			} else {
 				System.out.println("The area is missing a " + idea.getAura().getDisplayName() + ".");

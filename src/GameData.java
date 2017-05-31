@@ -35,7 +35,7 @@ public class GameData {
 		makeAspect("light");
 		makeAspect("hollow",		new String[] {"light","heavy"});
 		makeAspect("piercing",		new String[] {"stabbing","sharp"});
-		
+		makeAspect("cutting",		new String[] {"slashing","piercing"});
 		
 		
 		makeItem("rock","Rock","Rocks",new String[] {"heavy","hard"}, new String[] {"weight:7","hardness:15"}, true);
@@ -55,14 +55,18 @@ public class GameData {
 		makeItem("ore","Ore vein","Ore veins", new String[] {"hard","metallic","shiny"}, new String[] {"hardness:35"},false);
 		makeItem("pebble","Pebble","Pebbles", new String[] {"hard","light"}, new String[] {"weight:4"},true);
 		makeItem("powder","Crushed grass powder","Crushed grass powder", new String[] {"alive","light"}, new String[] {"flammable:1"}, true);
+		makeItem("log","Log","Logs",new String[] {"long","alive","heavy"}, new String[] {"flammable:1"}, false);
+		makeItem("axe","Axe","Axes",new String[] {"long","sharp","heavy"}, new String[] {"sharpness:20"}, true);
 		
 		setInteractions("rock",new String[] {"smash:hammer:pebble:3:true"});
+		setInteractions("tree",new String[] {"cut:axe:log:2:true"});
 		
 		makeIdea("pickaxe", new String[] {"piercing","long"}, new String[] {"hardness:10:50","length:10:30"},null);
 		makeIdea("club", new String[] {"crushing","heavy"}, new String[] {"weight:5:10"},null);
 		makeIdea("hammer", new String[] {"smashing","long"}, new String[] {"weight:5:15","length:10:30"},null);
 		makeIdea("campfire", new String[] {"hard","hot"}, new String[] {"sharpness:5:15","hardness:10:20","flammable:1:1"},null);
 		makeIdea("saw", new String[] {"slashing","long"}, new String[] {"sharpness:10:20","length:5:20"},null);
+		makeIdea("axe", new String[] {"cutting","long"}, new String[] {"hardness:10:50","length:5:20"},null);
 	
 		makeBiome("forest", 7, new String[] {"tree:5","lake:2","rock:10","flint:2","stick:10"});
 		makeBiome("desert", 4, new String[] {"cactus:10","lake:1","sandstone:5","bone:2"});

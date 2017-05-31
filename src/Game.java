@@ -185,10 +185,33 @@ public class Game {
 								Interaction interaction = ricc.getItem(arguments[1]).getInteraction(action);
 								if(ricc.hasItem(interaction.getToolItem().getName())) {
 									for(int i = 0; i < interaction.getCount(); i++) {
-										ricc.addItem(interaction.getResultItem().getName());
+										if(interaction.getResultItem().isMoveable()) {
+											ricc.addItem(interaction.getResultItem().getName());
+										} else {
+											ricc.getLocation().addItem(new Item(interaction.getResultItem().getName()));
+										}
 									}
 									if(interaction.getDestroys()) {
 										ricc.dropItem(ricc.getItem(arguments[1]).getName());
+									}
+									break;
+								}
+							}
+						}
+					} else if(ricc.getLocation().hasItem(arguments[1])) {
+						for(String action : ricc.getLocation().getItem(arguments[1]).getInteractions().keySet()) {
+							if(action.equals(arguments[0])) {
+								Interaction interaction = ricc.getLocation().getItem(arguments[1]).getInteraction(action);
+								if(ricc.hasItem(interaction.getToolItem().getName())) {
+									for(int i = 0; i < interaction.getCount(); i++) {
+										if(interaction.getResultItem().isMoveable()) {
+											ricc.addItem(interaction.getResultItem().getName());
+										} else {
+											ricc.getLocation().addItem(new Item(interaction.getResultItem().getName()));
+										}
+									}
+									if(interaction.getDestroys()) {
+										ricc.dropItem(ricc.getLocation().getItem(arguments[1]).getName());
 									}
 									break;
 								}
