@@ -8,14 +8,16 @@ public class Item {
 	private Aspect[] aspects; //the aspects inherent in this object
 	private HashMap<String, Integer> propertyValues; //the values for the properties of the object
 	private boolean moveable; //whether the object can be picked up or not
+	private HashMap<String, Interaction> interactions;
 	
-	public Item(String _name, String _displayName, String _pluralName, Aspect[] _aspects, HashMap<String, Integer> _propertyValues, boolean _moveable) {
+	public Item(String _name, String _displayName, String _pluralName, Aspect[] _aspects, HashMap<String, Integer> _propertyValues, boolean _moveable, HashMap<String, Interaction> _interactions) {
 		name = _name;
 		displayName = _displayName;
 		pluralName = _pluralName;
 		aspects = _aspects;
 		propertyValues = _propertyValues;
 		moveable = _moveable;
+		interactions = _interactions;
 	}
 	public Item(String _name) { //only use if already exists in dict
 		name = _name;
@@ -25,6 +27,7 @@ public class Item {
 		aspects = base.getAspects();
 		propertyValues = base.getPropertyValues();
 		moveable = base.isMoveable();
+		interactions = base.interactions;
 	}
 	
 	public void addProperty(String name, int value) {
@@ -37,6 +40,7 @@ public class Item {
 	public Integer getPropertyValue(String key) {return propertyValues.get(key);}
 	public HashMap<String, Integer> getPropertyValues() {return propertyValues;}
 	public boolean isMoveable() {return moveable;}
+	public Interaction getInteraction(String command) {return interactions.get(command);}
 	
 	public String toString() {
 		String output = getName() + ":\nAspects:\n";
