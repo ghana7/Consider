@@ -1,12 +1,12 @@
 
 public class Interaction
 {
-	private Item toolItem;
-	private Item resultItem;
-	private Item aura;
-	private boolean destroys;
-	private boolean destroysTool;
-	private int count;
+	private Item toolItem; //the item you need to do the action
+	private Item resultItem; //the item you gain from doing it
+	private Item aura; //an item that must be nearby to do it
+	private boolean destroys; //is the item destroyed?
+	private boolean destroysTool; //is the tool destroyed?
+	private int count; //how many result items do you get?
 	
 	public Interaction(Item _toolItem, Item _resultItem, Item _aura, int _count, boolean _destroys, boolean _destroysTool) {
 		toolItem = _toolItem;

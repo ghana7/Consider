@@ -8,7 +8,7 @@ public class Item {
 	private Aspect[] aspects; //the aspects inherent in this object
 	private HashMap<String, Integer> propertyValues; //the values for the properties of the object
 	private boolean moveable; //whether the object can be picked up or not
-	private HashMap<String, Interaction> interactions;
+	private HashMap<String, Interaction> interactions; //different interactions that can be done to the item
 	
 	public Item(String _name, String _displayName, String _pluralName, Aspect[] _aspects, HashMap<String, Integer> _propertyValues, boolean _moveable, HashMap<String, Interaction> _interactions) {
 		name = _name;

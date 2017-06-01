@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/* This class serves entirely as a storage for item information
+ */
 public class GameData {
 
 	public final static Map<String, Biome> BIOMEDICT = new HashMap<String,Biome>();
@@ -131,7 +133,8 @@ public class GameData {
 		
 		ITEMDICT.put(name, new Item(name,display,plural,aspectArray,propertyMap, moveable,new HashMap<String,Interaction>()));
 	}
-	
+	/* Sets item interactions for an item
+	 */
 	private static void setInteractions(String itemName, String[] interactions) {
 		HashMap<String, Interaction> interactionMap = new HashMap<String, Interaction>();
 		for(String s : interactions) {

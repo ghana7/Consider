@@ -13,14 +13,20 @@ public class Game {
 		*/
 	
 		Player ricc = new Player();
-		Chunk home = new Chunk(0,0, GameData.getRandomBiome());
+		Chunk home = new Chunk(0,0, GameData.getRandomBiome()); //staring chunk
 		ArrayList<Chunk> map = new ArrayList<Chunk>();
 		map.add(home);
 		ricc.setLocation(home);
 		
 		Scanner sc = new Scanner(System.in);
 		boolean running = true;
-		System.out.println("Welcome to Consider.");
+		System.out.println("Welcome to"); 
+
+		System.out.println("   ___                     _      _             ");
+		System.out.println("  / __|  ___   _ _    ___ (_)  __| |  ___   _ _ ");
+		System.out.println(" | (__  / _ \\ | ' \\  (_-< | | / _` | / -_) | '_|");
+		System.out.println("  \\___| \\___/ |_||_| /__/ |_| \\__,_| \\___| |_|  ");
+		System.out.println();
 		System.out.println("This is a game about the aspects of things.");
 		System.out.println("Begin by \"inspect\"ing some objects to get aspects, and \"consider\"ing two aspects to get more aspects or crafting ideas.");
 		System.out.println("Type \"help\" for all the commands you can do. In addition, having certain tools will allow you to perform special actions.");
@@ -66,7 +72,7 @@ public class Game {
 						System.out.println("\t\tOpen the treasure with your new key, and gain this certificate");
 					} else {
 						Item i = ricc.getLocation().getItem(arguments[1]);
-						if(i == null) {
+						if(i == null) {								//these two look for item in either location or inventory
 							i = ricc.getItem(arguments[1]);
 							if(i == null) {
 								System.out.println("Inspect what?");
@@ -79,7 +85,7 @@ public class Game {
 					}
 				}
 				break;
-			case "aspectualize":
+			case "aspectualize": //prints all aspects
 				for(Aspect a : ricc.getSpirit()) {
 					System.out.println(a);
 				}
@@ -131,7 +137,13 @@ public class Game {
 				break;
 			case "inventory":
 				for(Item i : ricc.getInventory()) {
-					System.out.println(i.getDisplayName());
+					System.out.print(i.getDisplayName() + " - ");
+					String propString = "";
+					for(String p : i.getPropertyValues().keySet()) {
+						propString += (p + ": " + i.getPropertyValue(p) +", ");
+					}
+					propString = propString.substring(0,propString.length()-2); //cuts out last comma
+					System.out.println(propString);
 				}
 				break;
 			case "craft":
@@ -151,6 +163,16 @@ public class Game {
 						if(i.getAura() != null) {
 							System.out.println("\tIn addition, there must be a " + i.getAura().getDisplayName() + " nearby.");
 						}
+						System.out.println("\nYou currently have:");
+						for(Item item : ricc.getInventory()) { //displays current inventory
+							System.out.print("\t" + item.getDisplayName() + " - ");
+							String propString = "";
+							for(String p : item.getPropertyValues().keySet()) {
+								propString += (p + ": " + item.getPropertyValue(p) +", ");
+							}
+							propString = propString.substring(0,propString.length()-2);
+							System.out.println(propString);
+						}
 						System.out.println("Enter your items:");
 						Item[] recipe = new Item[i.getMaterials().length];
 						for(int j = 0; j < i.getMaterials().length; j++) {
@@ -162,7 +184,7 @@ public class Game {
 							for(Item item : recipe) {
 								ricc.getInventory().remove(item);
 							}
-							if(!ricc.getItem(i.getName()).isMoveable()) {
+							if(!ricc.getItem(i.getName()).isMoveable()) { //if item isn't moveable, goes right on ground
 								System.out.println("The " + ricc.getItem(i.getName()).getDisplayName() + " was placed on the ground.");
 								ricc.getLocation().addItem(ricc.getItem(i.getName()));
 								ricc.getInventory().remove(ricc.getItem(i.getName()));
@@ -197,17 +219,17 @@ public class Game {
 				System.out.println("\tcraft <idea>:");
 				System.out.println("\t\tbegins the crafting of the item corresponding to idea.");
 				break;
-			case "cheat":
+			/*case "cheat":
 				ricc.addItem(arguments[1]);
 				break;
 			case "chidea":
 				ricc.addToBrain(GameData.IDEADICT.get("key"));
-				break;
-			default:
+				break;*/
+			default: //checks for item-specific actions
 				if(arguments.length > 1) {
 					if(ricc.hasItem(arguments[1])) {
 						for(String action : ricc.getItem(arguments[1]).getInteractions().keySet()) {
-							if(action.equals(arguments[0])) {
+							if(action.equals(arguments[0])) { //checks if the command given matches a usable command
 								Interaction interaction = ricc.getItem(arguments[1]).getInteraction(action);
 								if(interaction.getToolItem() == null || ricc.hasItem(interaction.getToolItem().getName())) {
 									if(interaction.getAura() == null || ricc.getLocation().hasItem(interaction.getAura().getName())) {
@@ -230,7 +252,7 @@ public class Game {
 								}
 							}
 						}
-					} else if(ricc.getLocation().hasItem(arguments[1])) {
+					} else if(ricc.getLocation().hasItem(arguments[1])) { //exact same thing as before, just for acting on something nearby
 						for(String action : ricc.getLocation().getItem(arguments[1]).getInteractions().keySet()) {
 							if(action.equals(arguments[0])) {
 								Interaction interaction = ricc.getLocation().getItem(arguments[1]).getInteraction(action);
@@ -267,6 +289,8 @@ public class Game {
 			}
 		}
 	}
+	
+	//displays all items nearby
 	public static void look(Player p) {
 		String output = "You find yourself in a " + p.getLocation().getBiome().getName() + ".\nAround you you see ";
 		HashMap<String, Integer> itemCount = new HashMap<String,Integer>();

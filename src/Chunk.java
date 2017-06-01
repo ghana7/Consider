@@ -3,8 +3,8 @@ import java.util.HashMap;
 
 public class Chunk {
 	private ArrayList<Item> items; //the items in the chunk
-	private Biome biome;
-	private HashMap<String, Chunk> pointers;
+	private Biome biome; //the biome this chunk is
+	private HashMap<String, Chunk> pointers; //chunks you can get to from this chunk
 	private int x;
 	private int y;
 	

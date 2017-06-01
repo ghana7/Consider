@@ -2,11 +2,15 @@ import java.util.HashMap;
 
 public class Biome
 {
-	private String name;
-	private HashMap<Item,Integer> items;
-	private Item[] weightedItems;
-	private int totalItemWeight;
-	private int itemDensity;
+	//template for a chunk
+	private String name; //name of biome
+	private HashMap<Item,Integer> items; //items in the biome
+	private Item[] weightedItems; //stuff for randomization
+	private int totalItemWeight;  
+	private int itemDensity;      
+	
+	/* Generates biome with weighted random items
+	 */
 	public Biome(String _name, int _itemDensity, HashMap<Item,Integer> _items) {
 		name = _name;
 		itemDensity = _itemDensity;

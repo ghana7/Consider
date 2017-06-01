@@ -1,9 +1,9 @@
 
 public class Property
 {
-	private String name;
-	private int minimum;
-	private int maximum;
+	private String name; 
+	private int minimum; //minimum value it can be
+	private int maximum; //maximum value it can be
 	
 	public Property(String _name, int _minimum, int _maximum) {
 		name = _name;

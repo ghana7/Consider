@@ -7,13 +7,11 @@ public class Player {
 	private ArrayList<Item> inventory; //all the items currently in the player's inventory
 	private int intelligence; //capacity of brain
 	private int constitution; //capacity of inventory
-	private int health;
 	private Chunk location;
 	
 	public Player() {
 		intelligence = 10;
 		constitution = 10;
-		health = 100;
 		spirit = new ArrayList<Aspect>();
 		brain = new ArrayList<Idea>();
 		inventory = new ArrayList<Item>();
@@ -98,7 +96,7 @@ public class Player {
 		}
 		return false;
 	}
-	
+	//crafts item idea with materials given - called by craft
 	public boolean makeItem(Idea idea, Item[] materials) {
 		if(idea.getMaterials().length == materials.length) { //make sure you have right amount of materials
 			for(int i = 0; i < materials.length; i++) {
@@ -111,7 +109,6 @@ public class Player {
 					return false;
 				}
 			}
-			//THIS NEEDS TO BE CHANGED TO TAKE INTO CONSIDERATION ITEM STATS
 			if(idea.getAura() == null || location.hasItem(idea.getAura().getName())) {
 				return addToInventory(new Item(idea.getItem().getName())); //adds the item corresponding to that idea
 			} else {
@@ -193,6 +190,7 @@ public class Player {
 		}
 		inventory.add(new Item(name));
 	}
+	
 	public void dropItem(String name) {
 		Item toRemove = null;
 		for(Item i : inventory) {
@@ -218,6 +216,7 @@ public class Player {
 		}
 		return null;
 	}
+	
 	public boolean hasIdea(String name) {
 		return getIdea(name) != null;
 	}
