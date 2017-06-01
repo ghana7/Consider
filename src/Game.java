@@ -17,17 +17,20 @@ public class Game {
 		ArrayList<Chunk> map = new ArrayList<Chunk>();
 		map.add(home);
 		ricc.setLocation(home);
-		look(ricc);
+		
 		Scanner sc = new Scanner(System.in);
 		boolean running = true;
-		System.out.println("\nWelcome to Consider.");
+		System.out.println("Welcome to Consider.");
 		System.out.println("This is a game about the aspects of things.");
-		System.out.println("Begin by inspecting some objects to get aspects, and considering two aspects to get more aspects or crafting ideas.");
+		System.out.println("Begin by \"inspect\"ing some objects to get aspects, and \"consider\"ing two aspects to get more aspects or crafting ideas.");
 		System.out.println("Type \"help\" for all the commands you can do. In addition, having certain tools will allow you to perform special actions.");
-		System.out.println("Explore all the possibilities of the world and the items around you!");
+		System.out.println("\"Go\" everywhere and explore all the possibilities of the world and the items around you!");
 		System.out.println("Here's a freebie - try inspecting the sun. Type \"inspect sun\" to begin your journey.");
+		System.out.println();
+		look(ricc);
+		
 		while(running) {
-			String[] arguments = sc.nextLine().split(" ");
+			String[] arguments = sc.nextLine().toLowerCase().split(" ");
 			switch(arguments[0]) {
 			case "quit":
 			case "stop":
@@ -53,6 +56,14 @@ public class Game {
 					if(arguments[1].equals("sun")) {
 						ricc.addToSpirit(GameData.ASPECTDICT.get("hot"));
 						System.out.println("The aspect of the hot has been discovered.");
+					} else if (arguments[1].equals("scroll")) {
+						System.out.println("You look closer at the magic scroll. It says...");
+						System.out.println("\tTo gain the CERTIFICATE OF GLORIOUS PARTICIPATION, you must perform the following steps:");
+						System.out.println("\t\tCraft an iron ingot for the key base");
+						System.out.println("\t\tPerform magic and offer an offering in a campfire for the magic rune");
+						System.out.println("\t\tExplore the highest mountains for a diamond");
+						System.out.println("\t\tCraft these items into a key, and explore the deserts for treasure");
+						System.out.println("\t\tOpen the treasure with your new key, and gain this certificate");
 					} else {
 						Item i = ricc.getLocation().getItem(arguments[1]);
 						if(i == null) {
@@ -156,6 +167,8 @@ public class Game {
 								ricc.getLocation().addItem(ricc.getItem(i.getName()));
 								ricc.getInventory().remove(ricc.getItem(i.getName()));
 							}
+						} else {
+							System.out.println("Crafting failed.");
 						}
 					}
 				}
@@ -184,9 +197,12 @@ public class Game {
 				System.out.println("\tcraft <idea>:");
 				System.out.println("\t\tbegins the crafting of the item corresponding to idea.");
 				break;
-			/*case "cheat":
+			case "cheat":
 				ricc.addItem(arguments[1]);
-				break;*/
+				break;
+			case "chidea":
+				ricc.addToBrain(GameData.IDEADICT.get("key"));
+				break;
 			default:
 				if(arguments.length > 1) {
 					if(ricc.hasItem(arguments[1])) {

@@ -102,6 +102,9 @@ public class Player {
 	public boolean makeItem(Idea idea, Item[] materials) {
 		if(idea.getMaterials().length == materials.length) { //make sure you have right amount of materials
 			for(int i = 0; i < materials.length; i++) {
+				if(materials[i] == null) {
+					return false;
+				}
 				Property p = idea.getMaterials()[i];
 				if(!p.isValid(materials[i].getPropertyValue(p.getName()))) { //if the property from the i'th item has a valid value for property i
 					System.out.println("Material " + (i + 1) + " failed to meet requirements.");
@@ -185,6 +188,9 @@ public class Player {
 	}
 	
 	public void addItem(String name) {
+		if(name.equals("certificate")) {
+			System.out.println("Congratulations! Of all the players of this game, you sure were one. Good job!");
+		}
 		inventory.add(new Item(name));
 	}
 	public void dropItem(String name) {
