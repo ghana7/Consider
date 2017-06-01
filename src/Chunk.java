@@ -38,6 +38,9 @@ public class Chunk {
 	}
 	
 	public boolean hasItem(String name) {
+		if(name.equals("")) {
+			return true;
+		}
 		return getItem(name) != null;
 	}
 }

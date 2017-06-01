@@ -21,6 +21,7 @@ public class GameData {
 		makeAspect("crushing",		new String[] {"smashing","heavy"});
 		makeAspect("long");
 		makeAspect("brittle");
+		makeAspect("rigid");
 		makeAspect("wet");
 		makeAspect("thick",			new String[] {"wet","heavy"});
 		makeAspect("crystalline",	new String[] {"hard","brittle"});
@@ -44,7 +45,7 @@ public class GameData {
 		makeItem("tree","Tree","Trees",new String[] {"long","alive"}, new String[] {"height:30","flammable:1"}, false);
 		makeItem("stick","Stick","Sticks",new String[] {"long","brittle"}, new String[] {"length:15","flammable:1"}, true);
 		makeItem("hammer","Hammer","Hammers",new String[] {"long","heavy","smashing","crushing"}, new String[] {"hardness:50"}, true);
-		makeItem("campfire","Campfire","Campfires",new String[] {"hot"}, new String[] {}, false);
+		makeItem("campfire","Campfire","Campfires",new String[] {"hot"}, new String[] {"temperature:600"}, false);
 		makeItem("lake","Lake","Lakes",new String[] {"wet"}, new String[] {"moisture:1000"}, false);
 		makeItem("saw","Saw","Saws",new String[] {"sharp","slashing"}, new String[] {"sharpness:10"}, true);
 		makeItem("cactus","Cactus","Cacti",new String[] {"sharp","alive","wet"}, new String[] {"sharpness:3","moisture:50"}, false);
@@ -52,26 +53,38 @@ public class GameData {
 		makeItem("bone","Small bone","Small bones", new String[] {"hard","long","hollow"}, new String[] {"length:20"}, true);
 		makeItem("grass","Wild grass","Wild grasses", new String[] {"long","alive","light"}, new String[] {"moisture:20","flammable:1"},true);
 		makeItem("pickaxe", "Pickaxe","Pickaxes", new String[] {"hard","long","sharp","piercing"}, new String[] {"hardness:50"}, true);
-		makeItem("ore","Ore vein","Ore veins", new String[] {"hard","metallic","shiny"}, new String[] {"hardness:35"},false);
+		makeItem("vein","Ore vein","Ore veins", new String[] {"hard","metallic","shiny"}, new String[] {"hardness:35"},false);
 		makeItem("pebble","Pebble","Pebbles", new String[] {"hard","light"}, new String[] {"weight:4"},true);
 		makeItem("powder","Crushed grass powder","Crushed grass powder", new String[] {"alive","light"}, new String[] {"flammable:1"}, true);
-		makeItem("log","Log","Logs",new String[] {"long","alive","heavy"}, new String[] {"flammable:1"}, false);
+		makeItem("log","Log","Logs",new String[] {"long","alive","heavy"}, new String[] {"flammable:2"}, false);
 		makeItem("axe","Axe","Axes",new String[] {"long","sharp","heavy"}, new String[] {"sharpness:20"}, true);
+		makeItem("bucket","Bucket","Buckets",new String[] {"hollow"}, new String[] {"capacity:100"}, true);
+		makeItem("water","Bucket of Water","Buckets of Water",new String[] {"hollow","wet"}, new String[] {"moisture:100"}, true);
+		makeItem("ore","Iron ore","Iron ores",new String[] {"hard","metallic","shiny","heavy"}, new String[] {}, true);
+		makeItem("forge","Forge","Forges",new String[] {"hot","hollow"}, new String[] {"temperature:2000"}, false);
+		makeItem("plank","Wooden plank","Wooden planks",new String[] {"long","rigid"}, new String[] {"rigidity:50","flammable:2"}, true);
+		makeItem("iron","Iron ingot","Iron ingots",new String[] {"hard","metallic","shiny","heavy"}, new String[] {"weight:15","hardness:20"}, true);
 		
-		setInteractions("rock",new String[] {"smash:hammer:pebble:3:true"});
-		setInteractions("tree",new String[] {"cut:axe:log:2:true"});
+		setInteractions("rock",new String[] {"smash:hammer:pebble:null:3:true:false"});
+		setInteractions("tree",new String[] {"cut:axe:log::2:true:false"});
+		setInteractions("bucket",new String[] {"fill::water:lake:1:true:false"});
+		setInteractions("vein",new String[] {"mine:pickaxe:ore::3:true:false"});
+		setInteractions("ore",new String[] {"smelt::iron:forge:1:true:false"});
+		setInteractions("log",new String[] {"cut:saw:plank::2:true:false"});
 		
 		makeIdea("pickaxe", new String[] {"piercing","long"}, new String[] {"hardness:10:50","length:10:30"},null);
 		makeIdea("club", new String[] {"crushing","heavy"}, new String[] {"weight:5:10"},null);
 		makeIdea("hammer", new String[] {"smashing","long"}, new String[] {"weight:5:15","length:10:30"},null);
-		makeIdea("campfire", new String[] {"hard","hot"}, new String[] {"sharpness:5:15","hardness:10:20","flammable:1:1"},null);
+		makeIdea("campfire", new String[] {"hard","hot"}, new String[] {"sharpness:5:15","hardness:10:20","flammable:1:2"},null);
 		makeIdea("saw", new String[] {"slashing","long"}, new String[] {"sharpness:10:20","length:5:20"},null);
 		makeIdea("axe", new String[] {"cutting","long"}, new String[] {"hardness:10:50","length:5:20"},null);
+		makeIdea("forge", new String[] {"hot","hollow"}, new String[] {"moisture:100:500","weight:5:15","weight:5:15","flammable:2:2"}, "campfire");
+		makeIdea("bucket", new String[] {"hollow","rigid"}, new String[] {"rigidity:50:100"},null);
 	
 		makeBiome("forest", 7, new String[] {"tree:5","lake:2","rock:10","flint:2","stick:10"});
 		makeBiome("desert", 4, new String[] {"cactus:10","lake:1","sandstone:5","bone:2"});
 		makeBiome("plains", 11, new String[] {"tree:1","lake:3","grass:10"});
-		makeBiome("mountain", 5, new String[] {"rock:15","bone:2","flint:5","grass:1","ore:4"});
+		makeBiome("mountain", 5, new String[] {"rock:15","bone:2","flint:5","grass:1","vein:4"});
 		
 	}
 	public static Biome getRandomBiome() {
@@ -112,7 +125,7 @@ public class GameData {
 		HashMap<String, Interaction> interactionMap = new HashMap<String, Interaction>();
 		for(String s : interactions) {
 			String[] split = s.split(":");
-			interactionMap.put(split[0], new Interaction(i(split[1]),i(split[2]),Integer.parseInt(split[3]),Boolean.parseBoolean(split[4])));
+			interactionMap.put(split[0], new Interaction(i(split[1]),i(split[2]),i(split[3]),Integer.parseInt(split[4]),Boolean.parseBoolean(split[5]),Boolean.parseBoolean(split[6])));
 		}
 		i(itemName).setInteractions(interactionMap);
 	}

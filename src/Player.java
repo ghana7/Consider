@@ -7,11 +7,13 @@ public class Player {
 	private ArrayList<Item> inventory; //all the items currently in the player's inventory
 	private int intelligence; //capacity of brain
 	private int constitution; //capacity of inventory
+	private int health;
 	private Chunk location;
 	
 	public Player() {
-		intelligence = 5;
-		constitution = 5;
+		intelligence = 10;
+		constitution = 10;
+		health = 100;
 		spirit = new ArrayList<Aspect>();
 		brain = new ArrayList<Idea>();
 		inventory = new ArrayList<Item>();
@@ -196,6 +198,9 @@ public class Player {
 		inventory.remove(toRemove);
 	}
 	public boolean hasItem(String name) {
+		if(name.equals("")) {
+			return true;
+		}
 		return getItem(name) != null;
 	}
 	

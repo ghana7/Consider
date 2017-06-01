@@ -20,6 +20,12 @@ public class Game {
 		look(ricc);
 		Scanner sc = new Scanner(System.in);
 		boolean running = true;
+		System.out.println("\nWelcome to Consider.");
+		System.out.println("This is a game about the aspects of things.");
+		System.out.println("Begin by inspecting some objects to get aspects, and considering two aspects to get more aspects or crafting ideas.");
+		System.out.println("Type \"help\" for all the commands you can do. In addition, having certain tools will allow you to perform special actions.");
+		System.out.println("Explore all the possibilities of the world and the items around you!");
+		System.out.println("Here's a freebie - try inspecting the sun. Type \"inspect sun\" to begin your journey.");
 		while(running) {
 			String[] arguments = sc.nextLine().split(" ");
 			switch(arguments[0]) {
@@ -44,16 +50,21 @@ public class Game {
 				if(arguments.length < 2) {
 					System.out.println("Inspect what?");
 				} else {
-					Item i = ricc.getLocation().getItem(arguments[1]);
-					if(i == null) {
-						i = ricc.getItem(arguments[1]);
+					if(arguments[1].equals("sun")) {
+						ricc.addToSpirit(GameData.ASPECTDICT.get("hot"));
+						System.out.println("The aspect of the hot has been discovered.");
+					} else {
+						Item i = ricc.getLocation().getItem(arguments[1]);
 						if(i == null) {
-							System.out.println("Inspect what?");
+							i = ricc.getItem(arguments[1]);
+							if(i == null) {
+								System.out.println("Inspect what?");
+							} else {
+								ricc.consider(i);
+							}
 						} else {
 							ricc.consider(i);
 						}
-					} else {
-						ricc.consider(i);
 					}
 				}
 				break;
@@ -65,7 +76,6 @@ public class Game {
 			case "move":
 			case "go":
 			case "perambulate":
-			case "nyoom":
 				String direction = arguments[1];
 				if(GameData.OPPOSITES.keySet().contains(direction)) {
 					ricc.move(direction, map);
@@ -174,27 +184,33 @@ public class Game {
 				System.out.println("\tcraft <idea>:");
 				System.out.println("\t\tbegins the crafting of the item corresponding to idea.");
 				break;
-			case "cheat":
+			/*case "cheat":
 				ricc.addItem(arguments[1]);
-				break;
+				break;*/
 			default:
 				if(arguments.length > 1) {
 					if(ricc.hasItem(arguments[1])) {
 						for(String action : ricc.getItem(arguments[1]).getInteractions().keySet()) {
 							if(action.equals(arguments[0])) {
 								Interaction interaction = ricc.getItem(arguments[1]).getInteraction(action);
-								if(ricc.hasItem(interaction.getToolItem().getName())) {
-									for(int i = 0; i < interaction.getCount(); i++) {
-										if(interaction.getResultItem().isMoveable()) {
-											ricc.addItem(interaction.getResultItem().getName());
-										} else {
-											ricc.getLocation().addItem(new Item(interaction.getResultItem().getName()));
+								if(interaction.getToolItem() == null || ricc.hasItem(interaction.getToolItem().getName())) {
+									if(interaction.getAura() == null || ricc.getLocation().hasItem(interaction.getAura().getName())) {
+										for(int i = 0; i < interaction.getCount(); i++) {
+											if(interaction.getResultItem().isMoveable()) {
+												ricc.addItem(interaction.getResultItem().getName());
+											} else {
+												ricc.getLocation().addItem(new Item(interaction.getResultItem().getName()));
+											}
 										}
+										if(interaction.getDestroys()) {
+											ricc.dropItem(ricc.getItem(arguments[1]).getName());
+										}
+										break;
+									} else {
+										System.out.println("You are missing a nearby " + interaction.getAura().getName() + ".");
 									}
-									if(interaction.getDestroys()) {
-										ricc.dropItem(ricc.getItem(arguments[1]).getName());
-									}
-									break;
+								} else {
+									System.out.println("You are missing the correct tool.");
 								}
 							}
 						}
@@ -202,18 +218,25 @@ public class Game {
 						for(String action : ricc.getLocation().getItem(arguments[1]).getInteractions().keySet()) {
 							if(action.equals(arguments[0])) {
 								Interaction interaction = ricc.getLocation().getItem(arguments[1]).getInteraction(action);
-								if(ricc.hasItem(interaction.getToolItem().getName())) {
-									for(int i = 0; i < interaction.getCount(); i++) {
-										if(interaction.getResultItem().isMoveable()) {
-											ricc.addItem(interaction.getResultItem().getName());
-										} else {
-											ricc.getLocation().addItem(new Item(interaction.getResultItem().getName()));
+								if(interaction.getToolItem() == null || ricc.hasItem(interaction.getToolItem().getName())) {
+									if(interaction.getAura() == null || ricc.getLocation().hasItem(interaction.getAura().getName())) {
+										for(int i = 0; i < interaction.getCount(); i++) {
+											if(interaction.getResultItem().isMoveable()) {
+												ricc.addItem(interaction.getResultItem().getName());
+											} else {
+												ricc.getLocation().addItem(new Item(interaction.getResultItem().getName()));
+											}
 										}
+										if(interaction.getDestroys()) {
+											
+											ricc.getLocation().getItems().remove(ricc.getLocation().getItem(arguments[1]));
+										}
+										break;
+									} else {
+										System.out.println("You are missing a nearby " + interaction.getAura().getName() + ".");
 									}
-									if(interaction.getDestroys()) {
-										ricc.dropItem(ricc.getLocation().getItem(arguments[1]).getName());
-									}
-									break;
+								} else {
+									System.out.println("You are missing the correct tool.");
 								}
 							}
 						}
